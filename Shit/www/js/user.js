@@ -4,6 +4,7 @@ function Player() {
     var playerID = null;
     var playerStreak = 0;
     var playerMultipler = 1;
+    var playerPoint = 0;
 
 
     this.setName = function (name) {
@@ -22,6 +23,17 @@ function Player() {
     this.getID = function () {
         if (playerID)
             return playerID;
+    };
+    this.addPoint = function (time,callback) {
+        playerPoint += time*132*playerMultipler;
+        if (callback && typeof callback == 'function')
+            callback();
+        //Player.setTitle();
+        //Player.setMultipler();
+    };
+    this.getPoint = function()
+    {
+        return playerPoint;
     };
     this.addStreak = function (callback) {
         playerStreak++;
@@ -52,7 +64,6 @@ function Player() {
             callback();
     };
     this.getTitle = function (callback) {
-        if (!playerTitle)
             this.setTitle();
         if (callback && typeof callback == 'function')
             return callback(playerTitle);

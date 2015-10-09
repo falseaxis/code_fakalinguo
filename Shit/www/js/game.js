@@ -32,6 +32,7 @@ GameEngine.createPlayer = function()
     var ID =1;
     newPlayer.setID(ID);
     newPlayer.setName("Test User1");
+    newPlayer.getPoint();
     newPlayer.setTitle(function () {newPlayer.setMultipler();});
     if(GameEngine.Players  && !GameEngine.Players[ID])
        return( GameEngine.Players[ID] = newPlayer);
