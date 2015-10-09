@@ -5,6 +5,7 @@
     */
     function register_event_handlers() {
         $(document).ready(function () {
+            initAd();
             setTimeout(function () {
                 setStartupVars();
                 activate_page("#mainpage");
@@ -35,7 +36,7 @@
 
         function gameStart() {
             swearTxt.innerText = question + ".) " + questionSelector() + "?";
-            pointTxt.innerText = "Point: "+ player.getPoint();
+            pointTxt.innerText = "Point: " + player.getPoint();
             answerMaker();
             time = 10;
             myVar = setInterval(function () {
@@ -199,6 +200,7 @@
         };
 
         function setStartupVars() {
+            window.plugins.AdMob.createBannerView();
             titleTxt.innerText = "Sir " + player.getTitle();
             pointTxt.innerText = "Point: ";
             timerTxt.innerText = " ";
@@ -227,7 +229,12 @@
                 });
 
             } else {
-                player.clearStreak();
+                player.clearStreak(function () {
+                    setStartupVars();
+                    setTimeout(function () {
+                        gameStart();
+                    }, 500);
+                });
             }
 
         });
@@ -245,7 +252,12 @@
                 });
 
             } else {
-                player.clearStreak();
+                player.clearStreak(function () {
+                    setStartupVars();
+                    setTimeout(function () {
+                        gameStart();
+                    }, 500);
+                });
             }
         });
 
@@ -262,7 +274,12 @@
                 });
 
             } else {
-                player.clearStreak();
+                player.clearStreak(function () {
+                    setStartupVars();
+                    setTimeout(function () {
+                        gameStart();
+                    }, 500);
+                });
             }
         });
 
@@ -279,10 +296,74 @@
                 });
 
             } else {
-                player.clearStreak();
+                player.clearStreak(function () {
+                    setStartupVars();
+                    setTimeout(function () {
+                        gameStart();
+                    }, 500);
+                });
             }
         });
 
+    }
+    function initApp() {
+        initAd();
+        // display the banner at startup
+        //window.plugins.AdMob.createBannerView();
+    }
+    function initAd(){
+        if ( window.plugins && window.plugins.AdMob ) {
+    	    var ad_units = {
+				ios : {
+					banner: 'ca-app-pub-5453713931180772/8923085641',
+					interstitial: 'ca-app-pub-5453713931180772/1399818844'
+				},
+				android : {
+					banner: 'ca-app-pub-5453713931180772/8923085641',
+					interstitial: 'ca-app-pub-5453713931180772/1399818844'
+				},
+				wp8 : {
+					banner: 'ca-app-pub-5453713931180772/8923085641',
+					interstitial: 'ca-app-pub-5453713931180772/1399818844'
+				}
+    	    };
+    	    var admobid = "";
+    	    if( /(android)/i.test(navigator.userAgent) ) {
+    	    	admobid = ad_units.android;
+    	    } else if(/(iphone|ipad)/i.test(navigator.userAgent)) {
+    	    	admobid = ad_units.ios;
+    	    } else {
+    	    	admobid = ad_units.wp8;
+    	    }
+            window.plugins.AdMob.setOptions( {
+                publisherId: admobid.banner,
+                interstitialAdId: admobid.interstitial,
+                bannerAtTop: false, // set to true, to put banner at top
+                overlap: false, // set to true, to allow banner overlap webview
+                offsetTopBar: false, // set to true to avoid ios7 status bar overlap
+                isTesting: false, // receiving test ad
+                autoShow: true // auto show interstitial ad when loaded
+            });
+            registerAdEvents();
+            
+        } else {
+            alert( 'admob plugin not ready' );
+        }
+    }
+	// optional, in case respond to events
+    function registerAdEvents() {
+    	document.addEventListener('onReceiveAd', function(){});
+        document.addEventListener('onFailedToReceiveAd', function(data){});
+        document.addEventListener('onPresentAd', function(){});
+        document.addEventListener('onDismissAd', function(){ });
+        document.addEventListener('onLeaveToAd', function(){ });
+        document.addEventListener('onReceiveInterstitialAd', function(){ });
+        document.addEventListener('onPresentInterstitialAd', function(){ });
+        document.addEventListener('onDismissInterstitialAd', function(){ });
+    }
+    function onResize() {
+        var msg = 'web view: ' + window.innerWidth + ' x ' + window.innerHeight;
+        document.getElementById('sizeinfo').innerHTML = msg;
     }
     document.addEventListener("app.Ready", register_event_handlers, false);
 })();

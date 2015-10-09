@@ -6,7 +6,7 @@
       "projectTypeName": "com.intel.xdk.projecttype.jsapp",
       "src": "jsapp/template-blank-cordova-ad-project/sample.zip",
       "projectGuid": "79bb60cf-e3b0-414e-9ce4-dc7e92101055",
-      "lastModifiedDate": 1444336707521,
+      "lastModifiedDate": 1444429711471,
       "creationDate": 1444335438366
     },
     "XDK-app-designer": "true",
@@ -51,7 +51,8 @@
         "gitref": "",
         "name": "Device",
         "description": "Cordova Device Plugin",
-        "checksum": "adfc61ba"
+        "checksum": "adfc61ba",
+        "cordovaVersion": ">=3.0"
       },
       {
         "id": "cordova-plugin-splashscreen",
@@ -68,7 +69,80 @@
         "gitref": "",
         "name": "Splashscreen",
         "description": "Cordova Splashscreen Plugin",
-        "checksum": "170efb68"
+        "checksum": "170efb68",
+        "cordovaVersion": ">=3.0"
+      },
+      {
+        "id": "com.google.admobsdk",
+        "name": "AdMob SDK for Android, iOS and WP8",
+        "version": "6.12.2",
+        "originType": "cordova.io",
+        "origin": "com.google.admobsdk",
+        "gitref": "",
+        "paramvals": {},
+        "sourceLocation": "plugins/com.google.admobsdk",
+        "selectedState": "Included",
+        "checksum": "fb2c343d",
+        "dependsOn": [],
+        "topLevel": false,
+        "cordovaVersion": ">=3.0.0",
+        "permissions": {
+          "android:name": [
+            "android.permission.INTERNET",
+            "android.permission.ACCESS_NETWORK_STATE"
+          ]
+        },
+        "description": "AdMob SDK for Android, iOS and WP8 only, as dependency of other plugins",
+        "data": {},
+        "dependedBy": [
+          "cordova-plugin-admob"
+        ],
+        "custom": "true"
+      },
+      {
+        "id": "com.google.playservices",
+        "name": "Google Play Services for Android",
+        "version": "19.0.0",
+        "originType": "cordova.io",
+        "origin": "com.google.playservices",
+        "gitref": "",
+        "paramvals": {},
+        "sourceLocation": "plugins/com.google.playservices",
+        "selectedState": "Included",
+        "checksum": "83e050f2",
+        "dependsOn": [],
+        "topLevel": false,
+        "cordovaVersion": ">=3.0.0",
+        "permissions": {},
+        "data": {},
+        "dependedBy": [
+          "cordova-plugin-admob"
+        ],
+        "custom": "true"
+      },
+      {
+        "id": "cordova-plugin-admob",
+        "name": "AdMob",
+        "version": "2.2.0",
+        "originType": "repo",
+        "origin": "https://github.com/floatinghotpot/cordova-plugin-admob.git",
+        "gitref": "73604990ece95c4d5833d7a6acae95a6bba2254b",
+        "subdir": ".",
+        "paramvals": {},
+        "sourceLocation": "plugins/cordova-plugin-admob",
+        "selectedState": "Included",
+        "checksum": "9debe859",
+        "dependsOn": [
+          "com.google.playservices",
+          "com.google.admobsdk"
+        ],
+        "topLevel": true,
+        "cordovaVersion": ">=3.0",
+        "author": "Liming Xie",
+        "permissions": {},
+        "description": "Cordova plugin for AdMob Ads",
+        "data": {},
+        "dependedBy": []
       }
     ],
     "buildConfigurations": {
