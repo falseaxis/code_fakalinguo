@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+    <!--
+  * Please see the included README.md file for license terms and conditions.
+  -->
+
+    <head>
+        <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
+        <meta charset="UTF-8">
+        <title>Blank App Designer Cordova Web App Project Template</title>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+
+        <!--
+  * The "meta viewport" tag (below) helps your app size appropriately to a device's ideal viewport.
+  * Note that Windows device viewports work better when initialized using the @viewport CSS rule.
+  * For a quick overview of "meta viewport" and @viewport, see this article:
+  *   http://webdesign.tutsplus.com/tutorials/htmlcss-tutorials/quick-tip-dont-forget-the-viewport-meta-tag
+  * To see how it works, try your app on a real device with and without a "meta viewport" tag.
+  * Additional useful references include:
+  *   http://www.quirksmode.org/mobile/viewports.html
+  *   http://www.quirksmode.org/mobile/metaviewport/devices.html
+  *   https://developer.apple.com/library/safari/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html
+-->
+
+        <!-- <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1"> -->
+        <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=no">
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes, minimum-scale=1, maximum-scale=2"> -->
+
+        <style>
+            /* following three (cascaded) are equivalent to above three meta viewport statements */
+            /* see http://www.quirksmode.org/blog/archives/2014/05/html5_dev_conf.html */
+            /* see http://dev.w3.org/csswg/css-device-adapt/ */
+            
+            @-ms-viewport {
+                width: 100vw;
+                min-zoom: 100%;
+                zoom: 100%;
+            }
+            
+            @viewport {
+                width: 100vw;
+                min-zoom: 100% zoom: 100%;
+            }
+            
+            @-ms-viewport {
+                user-zoom: fixed;
+                min-zoom: 100%;
+            }
+            
+            @viewport {
+                user-zoom: fixed;
+                min-zoom: 100%;
+            }
+            /*@-ms-viewport { user-zoom: zoom ; min-zoom: 100% ; max-zoom: 200% ; }   @viewport { user-zoom: zoom ; min-zoom: 100% ; max-zoom: 200% ; }*/
+        </style>
+
+        <link rel="stylesheet" href="css/app.css">
+        <link rel="stylesheet" type="text/css" href="css/index_main.less.css" class="main-less">
+
+        <!-- IMPORTANT: Do not include a weinre script tag as part of your release builds! -->
+        <!-- Place your remote debugging (weinre) script URL from the Test tab here, if it does not work below -->
+        <!-- <script src="http://debug-software.intel.com/target/target-script-min.js#insertabiglongfunkynumberfromthexdkstesttab"></script> -->
+
+        <!-- Recommended location for your JavaScript libraries -->
+        <!-- These library references (below) are just examples to give you the general idea... -->
+        <!-- <script src="lib/mc/hammer.js"></script> -->
+        <!-- <script src="lib/ft/fastclick.js"></script> -->
+
+        <!--
+  * cordova.js is a phantom lib for "Cordova HTML5 web app," it does nothing in a "Standard HTML5 web app"
+  * Seeing a "Failed to load resource: net::ERR_FILE_NOT_FOUND" message caused by this "cordova.js" script?
+  * The cordova.js script is required if you convert your "Standard HTML5" project into a "Cordova" project.
+  * You can safely ignore the error or comment out this line if you will not be developing a Cordova app.
+-->
+        <script src="cordova.js" id="xdkJScordova_"></script>
+
+        <script src="js/app.js"></script>
+        <!-- for your event code, see README and file comments for details -->
+        <script src="js/init-app.js"></script>
+        <!-- for your init code, see README and file comments for details -->
+        <script src="xdk/init-dev.js"></script>
+        <!-- normalizes device and document ready events, see file for details -->
+        <script type="application/javascript" src="lib/jquery.min.js"></script>
+        <script type="application/javascript" src="js/index_user_scripts.js"></script>
+        <script type="text/javascript" src="js/bs_subpage.js"></script>
+        <script type="text/javascript" src="js/db.js"></script>
+        <script type="text/javascript" src="js/user.js"></script>
+        <script type="text/javascript" src="js/game.js"></script>
+
+    </head>
+
+    <body>
+        <!-- IMPORTANT: Do not include a weinre script tag as part of your release builds! -->
+        <!-- Place your remote debugging (weinre) script URL from the Test tab here, if it does not work above -->
+        <!-- <script src="http://debug-software.intel.com/target/target-script-min.js#insertabiglongfunkynumberfromthexdkstesttab"></script> -->
+        <div class="upage vertical-col left splash_bg BG" id="splashpage">
+
+            <div class="widget uib_w_16 d-margins" data-uib="media/text" data-ver="0" id="multiplerTxt">
+                <div class="widget-container left-receptacle"></div>
+                <div class="widget-container right-receptacle"></div>
+                <div>
+                    <p>&nbsp;</p>
+                </div>
+            </div>
+        </div>
+        <div class="upage vertical-col left BG" id="mainpage">
+            <div class="grid grid-pad urow uib_row_2 row-height-2" data-uib="layout/row" data-ver="0">
+                <div class="col uib_col_8 col-0_12-12" data-uib="layout/col" data-ver="0">
+                    <div class="widget-container content-area vertical-col">
+
+                        <div class="panel widget uib_w_12 panel-default d-margins" data-uib="twitter%20bootstrap/panel" data-ver="1">
+                            <div class="panel-heading">
+                                <div class="widget-container">
+                                    <div class="sbs-container widget uib_w_13 d-margins" data-uib="layout/side_by_side" data-ver="0">
+                                        <div class="leftContent widget-container">
+                                            <div class="widget uib_w_14 d-margins sa" data-uib="media/text" data-ver="0">
+                                                <div class="widget-container left-receptacle"></div>
+                                                <div class="widget-container right-receptacle"></div>
+                                                <div>
+                                                    <p id="titleTxt">Label Point</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="rightContent widget-container">
+                                            <div class="widget uib_w_15 zz d-margins sa" data-uib="media/text" data-ver="0">
+                                                <div class="widget-container left-receptacle"></div>
+                                                <div class="widget-container right-receptacle"></div>
+                                                <div>
+                                                    <p id="pointTxt">Label Point</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col uib_col_9 single-col" data-uib="layout/col" data-ver="0">
+                                <div class="widget-container content-area vertical-col">
+                                    <span class="uib_shim"></span>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <div class="widget-container">
+                                    <div class="progress full-width-widget widget uib_w_4 ProgressWidth CenterMargin progress-striped" data-uib="twitter%20bootstrap/progress_bar" data-ver="1" id="timerProgres">
+                                        <div class="progress-bar progress-bar-success" style="width: 100%;">dalYARAK</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><span class="uib_shim"></span>
+                    </div>
+                </div>
+                <span class="uib_shim"></span>
+            </div>
+
+            <div class="grid grid-pad urow uib_row_1" data-uib="layout/row" data-ver="0">
+                <div class="col uib_col_6 col-0_12-12" data-uib="layout/col" data-ver="0">
+                    <div class="widget-container content-area vertical-col">
+                        <div class="panel widget uib_w_5 panel-success" data-uib="twitter%20bootstrap/panel" data-ver="1">
+                            <div class="panel-heading">
+                                <div class="widget-container">
+                                    <div class="widget uib_w_6 d-margins CenterMargin" data-uib="media/text" data-ver="0">
+                                        <div class="widget-container left-receptacle"></div>
+                                        <div class="widget-container right-receptacle"></div>
+                                        <div>
+                                            <p id="swearTxt">Buraya Otomatik Küfür gelecek</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col uib_col_4 single-col" data-uib="layout/col" data-ver="0">
+                                <div class="widget-container content-area vertical-col">
+                                    <span class="uib_shim"></span>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <div class="widget-container">
+
+                                    <div class="btn-group uib-bs-flex widget uib_w_7 btn-group-vertical Width" data-uib="twitter%20bootstrap/button_group" data-ver="1">
+                                        <button class="btn widget uib_w_8 vertical-group buttonWidth buttonmargin btn-sm btn-primary" data-uib="twitter%20bootstrap/button" data-ver="1" id="firstBtn">Buralar</button>
+                                        <button class="btn widget uib_w_9 vertical-group buttonWidth buttonmargin btn-sm btn-primary txtbtn" data-uib="twitter%20bootstrap/button" data-ver="1" id="secondBtn">İşte</button>
+                                        <button class="btn widget uib_w_10 vertical-group buttonmargin btn-sm btn-primary buttonWidth" data-uib="twitter%20bootstrap/button" data-ver="1" id="thirdBtn">Hep</button>
+                                        <button class="btn widget uib_w_11 vertical-group buttonmargin btn-sm btn-primary buttonWidth" data-uib="twitter%20bootstrap/button" data-ver="1" id="fourthBtn">Küfür</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><span class="uib_shim"></span>
+                    </div>
+                </div>
+                <span class="uib_shim"></span>
+            </div>
+        </div>
+    </body>
+
+</html>
