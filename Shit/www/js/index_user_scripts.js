@@ -18,8 +18,7 @@
             }, 1000);
         });
         $(document).on("pagechange", function (evnt, pageID) {
-            if (pageID == "#mainpage") {
-                selectedQuestions = JSON.parse(DB);
+            if (pageID == "#mainpage") {          
                 //setTimeout(function () {
                 //    gameStart();
                 //}, 5000);
@@ -47,7 +46,7 @@
         var usedlang = null;
         var currentAnswer = null;
         var player;
-        var myVar;
+        var intervals = [];
         var time;
 
         function showGecisModalDialog(answer) {
@@ -83,9 +82,15 @@
             pointTxt.innerText = "Point: " + player.getPoint();
             answerMaker();
             time = 10;
-            myVar = setInterval(function () {
+            for(var i =0; i < intervals.length; i++)
+            {
+                clearInterval(intervals[i]);
+            }
+            intervals = [];
+             var myVar = setInterval(function () {
                 if (time == 0) {
                     clearInterval(myVar);
+                    intervals.pop(myVar);
                     player.clearStreak(function () {
                         setStartupVars();
                         showGecisModalDialog("timeup");
@@ -100,6 +105,7 @@
                 timerProgress.attr('aria-valuenow', a);
                 timerProgress.width(a + '%');
             }, 1000);
+            intervals.push(myVar);
         };
 
         function answerMaker() {
@@ -274,7 +280,12 @@
             selectedQuestions = {};
             currentAnswer = null;
             usedlang=null;
-            clearInterval(myVar);
+            for(var i =0; i < intervals.length; i++)
+            {
+                clearInterval(intervals[i]);
+            }
+            intervals = [];
+            //clearInterval(myVar);
 
         };
         /* button  #firstBtn */
@@ -350,12 +361,14 @@
                 });
             }
         });
-
         $(document).on("click", "#btnGecisCloase", function (evt) {
+            $('#btnGecisCloase').prop('disabled', true);
             setTimeout(function () {
-                 selectedQuestions = JSON.parse(DB);
+                window.plugins.AdMob.createBannerView();
+                selectedQuestions = JSON.parse(DB);
                 gameStart(selectedQuestions);
                 hideGecisModalDialog();
+                $('#btnGecisCloase').prop('disabled', false);
             }, 500);
         });
 
