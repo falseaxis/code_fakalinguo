@@ -6,36 +6,80 @@
     function register_event_handlers() {
         $(document).ready(function () {
             initAd();
+            selectedQuestions = JSON.parse(DB);
+            usedlang=JSON.parse(Languages);
+            player = GameEngine.createPlayer();
             setTimeout(function () {
                 setStartupVars();
-                activate_page("#mainpage");
+                showGecisModalDialog();
+                activate_page("#mainpage", function () {
+                    window.plugins.AdMob.createBannerView();
+                });
             }, 1000);
         });
         $(document).on("pagechange", function (evnt, pageID) {
             if (pageID == "#mainpage") {
-                setTimeout(function () {
-                    gameStart();
-                }, 5000);
+                selectedQuestions = JSON.parse(DB);
+                //setTimeout(function () {
+                //    gameStart();
+                //}, 5000);
             }
         });
         var titleTxt = document.getElementById("titleTxt");
         var pointTxt = document.getElementById("pointTxt");
+        var timerProgress = $("#timerProgress");
         var timerTxt = document.getElementById("timerTxt");
         var swearTxt = document.getElementById("swearTxt");
-        var multiplerTxt = document.getElementById("multiplerTxt");
+
+        var gecismultiplerTxt = document.getElementById("gecismultiplerTxt");
+        var gecistitleTxt = document.getElementById("gecistitleTxt");
+        var gecispointTxt = document.getElementById("gecispointTxt");
+        var gecisAnswerTxt = document.getElementById("gecisAnswerTxt");
+
         var a = document.getElementById("firstBtn");
         var b = document.getElementById("secondBtn");
         var c = document.getElementById("thirdBtn");
         var d = document.getElementById("fourthBtn");
+        var gecisModal = $('#gecisModal');
+        
         var question = 1;
-        var selectedQuestions = {};
+        var selectedQuestions = null;
+        var usedlang = null;
         var currentAnswer = null;
-        var player = GameEngine.createPlayer();
+        var player;
         var myVar;
         var time;
 
-        function gameStart() {
-            swearTxt.innerText = question + ".) " + questionSelector() + "?";
+        function showGecisModalDialog(answer) {
+
+            if (answer === true)
+                gecisAnswerTxt.innerText = "Doğru :)";
+            else if (answer === false)
+                gecisAnswerTxt.innerText = "Yanlış :(";
+            else if (answer == "timeup")
+                gecisAnswerTxt.innerText = "Süre doldu :(";
+            else if (!answer)
+                gecisAnswerTxt.innerText = "";
+
+            gecistitleTxt.innerText = "Sir " + player.getTitle();
+            gecispointTxt.innerText = "Point: " + player.getPoint();
+            gecismultiplerTxt.innerText = "Multipler: X" + player.getMultipler();
+            gecisModal.modal();
+        };
+
+        function hideGecisModalDialog(time) {
+            if (!time)
+                setTimeout(function () {
+                    gecisModal.modal('hide');
+                }, 200);
+            else
+                setTimeout(function () {
+                    gecisModal.modal('hide');
+                }, time);
+        };
+
+        function gameStart(selectedQuestions) {
+            swearTxt.innerText = question + ".) " + questionSelector(selectedQuestions) + "?";
             pointTxt.innerText = "Point: " + player.getPoint();
             answerMaker();
             time = 10;
@@ -44,12 +88,17 @@
                     clearInterval(myVar);
                     player.clearStreak(function () {
                         setStartupVars();
-                        setTimeout(function () {
-                            gameStart();
-                        }, 500);
+                        showGecisModalDialog("timeup");
+                        //setTimeout(function () {
+                        //    gameStart();
+                        //}, 500);
                     });
                 }
-                timerTxt.innerText = time--;
+                var newTime = time--;
+                timerTxt.innerText = newTime;
+                var a = newTime * 10;
+                timerProgress.attr('aria-valuenow', a);
+                timerProgress.width(a + '%');
             }, 1000);
         };
 
@@ -81,19 +130,25 @@
             }
 
         }
-
-        function questionSelector() {
-            var qNumber = Math.floor((Math.random() * 22) + 1);
-            var langNumber = Math.floor((Math.random() * 10) + 1);
-            if (selectedQuestions[qNumber]) {
-                if (selectedQuestions[qNumber][abrSwitcher(langNumber)])
-                    questionSelector();
-            } else {
-                if (!selectedQuestions[qNumber])
-                    selectedQuestions[qNumber] = {};
+        
+        function questionSelector(selectedQuestions) {
+            
+            usedlang=JSON.parse(Languages);
+            var qNumber = Math.floor((Math.random() * selectedQuestions.length) + 1);
+            var langNumber = Math.floor((Math.random() * (Object.keys(selectedQuestions[qNumber]).length-2)) + 1);
+            //if (selectedQuestions[qNumber]) {
+            //    if (selectedQuestions[qNumber][abrSwitcher(langNumber)])
+            //        questionSelector();
+            //} else {
+                //if (!selectedQuestions[qNumber])
+                //    selectedQuestions[qNumber] = {};
                 question++;
-                return (selectedQuestions[qNumber][abrSwitcher(langNumber)] = DB[qNumber][abrSwitcher(langNumber)]);
-            }
+                //return (selectedQuestions[qNumber][abrSwitcher(langNumber)] = DB[qNumber][abrSwitcher(langNumber)]);
+                var selected = selectedQuestions[qNumber][abrSwitcher(langNumber)];
+                usedlang.remove(currentAnswer);
+                delete selectedQuestions[qNumber][abrSwitcher(langNumber)];
+                return selected;
+            //}
         };
 
         function abrSwitcher(langNumber) {
@@ -140,7 +195,7 @@
                 }
             case 9:
                 {
-                    currentAnswer = "FTW is da BR?";
+                    currentAnswer = "BR";
                     return "br-BR";
                 }
             case 10:
@@ -151,59 +206,65 @@
 
             }
         };
+        
+        
 
         function langSwitcher(answer) { //kullanılmış mı kontrolü yap
-            var langNumber = Math.floor((Math.random() * 10) + 1);
-            switch (langNumber) {
-            case 1:
-                {
-                    return answer == "Türkçe" ? langSwitcher(answer) : "Türkçe";
-                }
-            case 2:
-                {
-                    return answer == "İngilizce" ? langSwitcher(answer) : "İngilizce";
-                }
-            case 3:
-                {
-                    return answer == "İspanyolca" ? langSwitcher(answer) : "İspanyolca";
-                }
-            case 4:
-                {
-                    return answer == "Rusça" ? langSwitcher(answer) : "Rusça";
-                }
-            case 5:
-                {
-                    return answer == "İtalyanca" ? langSwitcher(answer) : "İtalyanca";
-                }
-            case 6:
-                {
-                    return answer == "Portekizce" ? langSwitcher(answer) : "Portekizce";
-                }
-            case 7:
-                {
-                    return answer == "Almanca" ? langSwitcher(answer) : "Almanca";
-                }
-            case 8:
-                {
-                    return answer == "İsveççe" ? langSwitcher(answer) : "İsveççe";
-                }
-            case 9:
-                {
-                    return answer == "FTW is da BR?" ? langSwitcher(answer) : "FTW is da BR?";
-                }
-            case 10:
-                {
-                    return answer == "Fransızca" ? langSwitcher(answer) : "Fransızca";
-                }
-
-            }
+            //usedlang=JSON.parse(Languages);
+            var langNumber = Math.floor((Math.random() * usedlang.length) + 1);
+            var itm = usedlang[langNumber];
+            usedlang.remove(itm);
+            return itm;
+            //switch (langNumber) {
+            //case 1:
+            //    {
+            //        return usedlang["Türkçe"] ? langSwitcher(answer) : answer == "Türkçe" ? langSwitcher(answer) : (usedlang["Türkçe"] = "Türkçe");
+            //    }
+            //case 2:
+            //    {
+            //        return usedlang["İngilizce"] ? langSwitcher(answer) : answer == "İngilizce" ? langSwitcher(answer) : (usedlang["İngilizce"] = "İngilizce");
+            //    }
+            //case 3:
+            //    {
+            //        return usedlang["İspanyolca"] ? langSwitcher(answer) : answer == "İspanyolca" ? langSwitcher(answer) : (usedlang["İspanyolca"] = "İspanyolca");
+            //    }
+            //case 4:
+            //    {
+            //        return usedlang["Rusça"] ? langSwitcher(answer) : answer == "Rusça" ? langSwitcher(answer) : (usedlang["Rusça"] = "Rusça");
+            //    }
+            //case 5:
+            //    {
+            //        return usedlang["İtalyanca"] ? langSwitcher(answer) : answer == "İtalyanca" ? langSwitcher(answer) : (usedlang["İtalyanca"] = "İtalyanca");
+            //    }
+            //case 6:
+            //    {
+            //        return usedlang["Portekizce"] ? langSwitcher(answer) : answer == "Portekizce" ? langSwitcher(answer) : (usedlang["Portekizce"] = "Portekizce");
+            //    }
+            //case 7:
+            //    {
+            //        return usedlang["Almanca"] ? langSwitcher(answer) : answer == "Almanca" ? langSwitcher(answer) : (usedlang["Almanca"] = "Almanca");
+            //    }
+            //case 8:
+            //    {
+            //        return usedlang["İsveççe"] ? langSwitcher(answer) : answer == "İsveççe" ? langSwitcher(answer) : (usedlang["İsveççe"] = "İsveççe");
+            //    }
+            //case 9:
+            //    {
+            //        return usedlang["BR"] ? langSwitcher(answer) : answer == "BR" ? langSwitcher(answer) : (usedlang["BR"] = "BR");
+            //    }
+            //case 10:
+            //    {
+            //        return usedlang["Fransızca"] ? langSwitcher(answer) : answer == "Fransızca" ? langSwitcher(answer) : (usedlang["Fransızca"] = "Fransızca");
+            //    }
+//
+            //}
         };
 
         function setStartupVars() {
-            window.plugins.AdMob.createBannerView();
+
             titleTxt.innerText = "Sir " + player.getTitle();
-            pointTxt.innerText = "Point: ";
-            timerTxt.innerText = " ";
+            pointTxt.innerText = "Point: " + player.getPoint();
+            timerProgress.innerText = " ";
             swearTxt.innerText = " ";
             multiplerTxt.innerText = "X" + player.getMultipler();
             a.innerText = "";
@@ -212,6 +273,7 @@
             d.innerText = "";
             selectedQuestions = {};
             currentAnswer = null;
+            usedlang=null;
             clearInterval(myVar);
 
         };
@@ -223,17 +285,13 @@
                 player.addStreak(function () {
                     player.addPoint(time);
                     setStartupVars();
-                    setTimeout(function () {
-                        gameStart();
-                    }, 500);
+                    showGecisModalDialog(true);
                 });
 
             } else {
                 player.clearStreak(function () {
                     setStartupVars();
-                    setTimeout(function () {
-                        gameStart();
-                    }, 500);
+                    showGecisModalDialog(false);
                 });
             }
 
@@ -246,17 +304,13 @@
                 player.addStreak(function () {
                     player.addPoint(time);
                     setStartupVars();
-                    setTimeout(function () {
-                        gameStart();
-                    }, 500);
+                    showGecisModalDialog(true);
                 });
 
             } else {
                 player.clearStreak(function () {
                     setStartupVars();
-                    setTimeout(function () {
-                        gameStart();
-                    }, 500);
+                    showGecisModalDialog(false);
                 });
             }
         });
@@ -268,17 +322,13 @@
                 player.addStreak(function () {
                     player.addPoint(time);
                     setStartupVars();
-                    setTimeout(function () {
-                        gameStart();
-                    }, 500);
+                    showGecisModalDialog(true);
                 });
 
             } else {
                 player.clearStreak(function () {
                     setStartupVars();
-                    setTimeout(function () {
-                        gameStart();
-                    }, 500);
+                    showGecisModalDialog(false);
                 });
             }
         });
@@ -290,52 +340,58 @@
                 player.addStreak(function () {
                     player.addPoint(time);
                     setStartupVars();
-                    setTimeout(function () {
-                        gameStart();
-                    }, 500);
+                    showGecisModalDialog(true);
                 });
 
             } else {
                 player.clearStreak(function () {
                     setStartupVars();
-                    setTimeout(function () {
-                        gameStart();
-                    }, 500);
+                    showGecisModalDialog(false);
                 });
             }
         });
 
+        $(document).on("click", "#btnGecisCloase", function (evt) {
+            setTimeout(function () {
+                 selectedQuestions = JSON.parse(DB);
+                gameStart(selectedQuestions);
+                hideGecisModalDialog();
+            }, 500);
+        });
+
     }
+
     function initApp() {
         initAd();
         // display the banner at startup
         //window.plugins.AdMob.createBannerView();
     }
-    function initAd(){
-        if ( window.plugins && window.plugins.AdMob ) {
-    	    var ad_units = {
-				ios : {
-					banner: 'ca-app-pub-5453713931180772/8923085641',
-					interstitial: 'ca-app-pub-5453713931180772/1399818844'
-				},
-				android : {
-					banner: 'ca-app-pub-5453713931180772/8923085641',
-					interstitial: 'ca-app-pub-5453713931180772/1399818844'
-				},
-				wp8 : {
-					banner: 'ca-app-pub-5453713931180772/8923085641',
-					interstitial: 'ca-app-pub-5453713931180772/1399818844'
-				}
-    	    };
-    	    var admobid = "";
-    	    if( /(android)/i.test(navigator.userAgent) ) {
-    	    	admobid = ad_units.android;
-    	    } else if(/(iphone|ipad)/i.test(navigator.userAgent)) {
-    	    	admobid = ad_units.ios;
-    	    } else {
-    	    	admobid = ad_units.wp8;
-    	    }
-            window.plugins.AdMob.setOptions( {
+
+    function initAd() {
+        if (window.plugins && window.plugins.AdMob) {
+            var ad_units = {
+                ios: {
+                    banner: 'ca-app-pub-5453713931180772/8923085641',
+                    interstitial: 'ca-app-pub-5453713931180772/1399818844'
+                },
+                android: {
+                    banner: 'ca-app-pub-5453713931180772/8923085641',
+                    interstitial: 'ca-app-pub-5453713931180772/1399818844'
+                },
+                wp8: {
+                    banner: 'ca-app-pub-5453713931180772/8923085641',
+                    interstitial: 'ca-app-pub-5453713931180772/1399818844'
+                }
+            };
+            var admobid = "";
+            if (/(android)/i.test(navigator.userAgent)) {
+                admobid = ad_units.android;
+            } else if (/(iphone|ipad)/i.test(navigator.userAgent)) {
+                admobid = ad_units.ios;
+            } else {
+                admobid = ad_units.wp8;
+            }
+            window.plugins.AdMob.setOptions({
                 publisherId: admobid.banner,
                 interstitialAdId: admobid.interstitial,
                 bannerAtTop: false, // set to true, to put banner at top
@@ -345,25 +401,43 @@
                 autoShow: true // auto show interstitial ad when loaded
             });
             registerAdEvents();
-            
+
         } else {
-            alert( 'admob plugin not ready' );
+            alert('admob plugin not ready');
         }
     }
-	// optional, in case respond to events
+    // optional, in case respond to events
     function registerAdEvents() {
-    	document.addEventListener('onReceiveAd', function(){});
-        document.addEventListener('onFailedToReceiveAd', function(data){});
-        document.addEventListener('onPresentAd', function(){});
-        document.addEventListener('onDismissAd', function(){ });
-        document.addEventListener('onLeaveToAd', function(){ });
-        document.addEventListener('onReceiveInterstitialAd', function(){ });
-        document.addEventListener('onPresentInterstitialAd', function(){ });
-        document.addEventListener('onDismissInterstitialAd', function(){ });
+        document.addEventListener('onReceiveAd', function () {});
+        document.addEventListener('onFailedToReceiveAd', function (data) {});
+        document.addEventListener('onPresentAd', function () {});
+        document.addEventListener('onDismissAd', function () {});
+        document.addEventListener('onLeaveToAd', function () {});
+        document.addEventListener('onReceiveInterstitialAd', function () {});
+        document.addEventListener('onPresentInterstitialAd', function () {});
+        document.addEventListener('onDismissInterstitialAd', function () {});
     }
+
     function onResize() {
         var msg = 'web view: ' + window.innerWidth + ' x ' + window.innerHeight;
         document.getElementById('sizeinfo').innerHTML = msg;
     }
     document.addEventListener("app.Ready", register_event_handlers, false);
+    var intval;
+    document.addEventListener('deviceready', function () {
+        var exitApp = false,
+            intval = setInterval(function () {
+                exitApp = false;
+            }, 600);
+        document.addEventListener("backbutton", function (e) {
+            e.preventDefault();
+            if (exitApp) {
+                clearInterval(intval)
+                    (navigator.app && navigator.app.exitApp()) || (device && device.exitApp())
+            } else {
+                exitApp = true;
+                window.plugins.toast.show('Çıkmak için bir kere daha geri tuşuna basın!', 'short', 'bottom');
+            }
+        }, false);
+    }, false);
 })();

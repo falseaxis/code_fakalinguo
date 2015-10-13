@@ -52,6 +52,26 @@
                 min-zoom: 100%;
             }
             /*@-ms-viewport { user-zoom: zoom ; min-zoom: 100% ; max-zoom: 200% ; }   @viewport { user-zoom: zoom ; min-zoom: 100% ; max-zoom: 200% ; }*/
+            
+            bodey {
+                overflow-y: hidden;
+            }
+            
+            .modal {
+                text-align: center;
+                overflow-y: hidden;
+            }
+            
+            @media screen and (min-width: 768px) {
+                .modal:before {
+                    vertical-align: middle;
+                }
+            }
+            
+            .modal-dialog {
+                vertical-align: middle;
+                margin-top: 25%;
+            }
         </style>
 
         <link rel="stylesheet" href="css/app.css">
@@ -82,90 +102,177 @@
         <!-- normalizes device and document ready events, see file for details -->
         <script type="application/javascript" src="lib/jquery.min.js"></script>
         <script type="application/javascript" src="js/index_user_scripts.js"></script>
+        <script type="application/javascript" src="bootstrap/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/bs_subpage.js"></script>
         <script type="text/javascript" src="js/db.js"></script>
         <script type="text/javascript" src="js/user.js"></script>
         <script type="text/javascript" src="js/game.js"></script>
+        <script type="text/javascript" src="js/languages.js"></script>
 
     </head>
 
     <body>
         <!-- IMPORTANT: Do not include a weinre script tag as part of your release builds! -->
         <!-- Place your remote debugging (weinre) script URL from the Test tab here, if it does not work above -->
-        <!-- <script src="http://debug-software.intel.com/target/target-script-min.js#insertabiglongfunkynumberfromthexdkstesttab"></script> -->
-        <div class="upage vertical-col left splash_bg" id="splashpage">
-            <div class="widget uib_w_1 splash_text_margin splash_text_text splash_text_custom" data-uib="media/text" data-ver="0">
-                <div class="widget-container left-receptacle"></div>
-                <div class="widget-container right-receptacle"></div>
-                <div>
-                    <p>JUST A SHIT!</p>
+        <!-- <script src="http://debug-software.intel.com/target/target-script-min.js#insertabiglongfunkynumberfromthexdkstesttab"></script> modal fade-->
+        <div class="modal fade" id="gecisModal" role="dialog" data-backdrop="static">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="uib-grid widget uib_w_17 grid-text grid-height d-margins" data-uib="layout/grid" data-ver="1">
+                            <div class="uib-grid-row">
+                                <div class="uib-grid-cell widget-container">
+                                    <div class="widget uib_w_25 d-margins" data-uib="media/text" data-ver="0">
+                                        <div class="widget-container left-receptacle"></div>
+                                        <div class="widget-container right-receptacle"></div>
+                                        <div>
+                                            <p id="gecisAnswerTxt">&nbsp;</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="uib-grid-row">
+                                <div class="uib-grid-cell widget-container">
+
+                                    <div class="widget uib_w_18" data-uib="media/text" data-ver="0">
+                                        <div class="widget-container left-receptacle"></div>
+                                        <div class="widget-container right-receptacle"></div>
+                                        <div>
+                                            <p id="gecistitleTxt">Title</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="uib-grid-row">
+                                <div class="uib-grid-cell widget-container">
+
+                                    <div class="widget uib_w_19 d-margins" data-uib="media/text" data-ver="0">
+                                        <div class="widget-container left-receptacle"></div>
+                                        <div class="widget-container right-receptacle"></div>
+                                        <div>
+                                            <p id="gecismultiplerTxt">Multipler</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="uib-grid-row">
+                                <div class="uib-grid-cell widget-container">
+                                    <div class="widget uib_w_20 d-margins" data-uib="media/text" data-ver="0">
+                                        <div class="widget-container left-receptacle"></div>
+                                        <div class="widget-container right-receptacle"></div>
+                                        <div>
+                                            <p id="gecispointTxt">Point</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer ">
+                        <div class="btn-group uib-bs-flex widget uib_w_21 d-margins" data-uib="twitter%20bootstrap/button_group" data-ver="1">
+
+                            <button class="btn widget uib_w_24 btn-default" data-uib="twitter%20bootstrap/button" data-ver="1" id="btnGecisCloase"><i class="glyphicon glyphicon-remove-circle" data-position="icon only"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="widget uib_w_2 asdfasfasfasf asdfasdfasasfasdffasd_margin" data-uib="media/text" data-ver="0">
+
+        </div>
+        <div class="upage vertical-col left splash_bg BG" id="splashpage">
+
+            <div class="widget uib_w_16 d-margins" data-uib="media/text" data-ver="0" id="multiplerTxt">
                 <div class="widget-container left-receptacle"></div>
                 <div class="widget-container right-receptacle"></div>
                 <div>
-                    <p>U're just a dickbutt</p>
+                    <p>&nbsp;</p>
                 </div>
             </div>
         </div>
-        <div class="upage vertical-col left hidden main_bg" id="mainpage">
-            <div class="sbs-container widget uib_w_3 d-margins test" data-uib="layout/side_by_side" data-ver="0" id="mainsidebyside">
-                <div class="leftContent widget-container">
-                    <div class="widget uib_w_5 d-margins" data-uib="media/text" data-ver="0">
-                        <div class="widget-container left-receptacle"></div>
-                        <div class="widget-container right-receptacle"></div>
-                        <div>
-                            <p id="titleTxt">Title:</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="rightContent widget-container">
-                    <div class="uib-grid widget uib_w_12 grid-height d-margins" data-uib="layout/grid" data-ver="1">
-                        <div class="uib-grid-row">
-                            <div class="uib-grid-cell widget-container">
-                                <div class="widget uib_w_13 d-margins grid_text" data-uib="media/text" data-ver="0">
-                                    <div class="widget-container left-receptacle"></div>
-                                    <div class="widget-container right-receptacle"></div>
-                                    <div>
-                                        <p id="pointTxt">Point</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="uib-grid-row">
-                            <div class="uib-grid-cell widget-container">
-                                <div class="widget uib_w_14 d-margins" data-uib="media/text" data-ver="0">
-                                    <div class="widget-container left-receptacle"></div>
-                                    <div class="widget-container right-receptacle"></div>
-                                    <div>
-                                        <p id="multiplerTxt">Multipler</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <div class="upage vertical-col left BG hidden" id="mainpage">
+            <div class="grid urow uib_row_2 row-height-2 headgrid" data-uib="layout/row" data-ver="0">
+                <div class="col uib_col_8 col-0_12-12" data-uib="layout/col" data-ver="0">
+                    <div class="widget-container content-area vertical-col">
 
+                        <div class="panel widget uib_w_12 panel-default d-margins" data-uib="twitter%20bootstrap/panel" data-ver="1">
+                            <div class="panel-heading">
+                                <div class="widget-container">
+                                    <div class="sbs-container widget uib_w_13 d-margins" data-uib="layout/side_by_side" data-ver="0">
+                                        <div class="leftContent widget-container">
+                                            <div class="widget uib_w_14 d-margins sa" data-uib="media/text" data-ver="0">
+                                                <div class="widget-container left-receptacle"></div>
+                                                <div class="widget-container right-receptacle"></div>
+                                                <div>
+                                                    <p id="titleTxt">Label Point</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="rightContent widget-container">
+                                            <div class="widget uib_w_15 zz d-margins sa" data-uib="media/text" data-ver="0">
+                                                <div class="widget-container left-receptacle"></div>
+                                                <div class="widget-container right-receptacle"></div>
+                                                <div>
+                                                    <p id="pointTxt">Label Point</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col uib_col_9 single-col" data-uib="layout/col" data-ver="0">
+                                <div class="widget-container content-area vertical-col">
+                                    <span class="uib_shim"></span>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <div class="widget-container">
+                                    <div class="progress full-width-widget widget uib_w_4 ProgressWidth CenterMargin active progress-striped" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" data-uib="twitter%20bootstrap/progress_bar" data-ver="1" id="timerProgress">
+                                        <div class="progress-bar progress-bar-success" style="width: 100%;">
+                                            <p id="timerTxt"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><span class="uib_shim"></span>
+                    </div>
                 </div>
+                <span class="uib_shim"></span>
             </div>
-            <div class="widget uib_w_6 d-margins timer_text_text" data-uib="media/text" data-ver="0">
-                <div class="widget-container left-receptacle"></div>
-                <div class="widget-container right-receptacle"></div>
-                <div>
-                    <p id="timerTxt">Timer</p>
+
+            <div class="grid urow uib_row_1 grid-pad" data-uib="layout/row" data-ver="0">
+                <div class="col uib_col_6 col-0_12-12" data-uib="layout/col" data-ver="0">
+                    <div class="widget-container content-area vertical-col">
+                        <div class="panel widget uib_w_5 panel-success" data-uib="twitter%20bootstrap/panel" data-ver="1">
+                            <div class="panel-heading">
+                                <div class="widget-container">
+                                    <div class="widget uib_w_6 d-margins CenterMargin sa" data-uib="media/text" data-ver="0">
+                                        <div class="widget-container left-receptacle"></div>
+                                        <div class="widget-container right-receptacle"></div>
+                                        <div>
+                                            <p id="swearTxt">Buraya Otomatik Küfür gelecek</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <div class="widget-container">
+
+                                    <div class="btn-group uib-bs-flex widget uib_w_7 btn-group-vertical Width" data-uib="twitter%20bootstrap/button_group" data-ver="1">
+                                        <button class="btn widget uib_w_8 vertical-group buttonWidth buttonmargin btn-sm btn-primary" data-uib="twitter%20bootstrap/button" data-ver="1" id="firstBtn">Buralar</button>
+                                        <button class="btn widget uib_w_9 vertical-group buttonWidth buttonmargin btn-sm btn-primary txtbtn" data-uib="twitter%20bootstrap/button" data-ver="1" id="secondBtn">İşte</button>
+                                        <button class="btn widget uib_w_10 vertical-group buttonmargin btn-sm btn-primary buttonWidth" data-uib="twitter%20bootstrap/button" data-ver="1" id="thirdBtn">Hep</button>
+                                        <button class="btn widget uib_w_11 vertical-group buttonmargin btn-sm btn-primary buttonWidth" data-uib="twitter%20bootstrap/button" data-ver="1" id="fourthBtn">Küfür</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><span class="uib_shim"></span>
+                    </div>
                 </div>
+                <span class="uib_shim"></span>
             </div>
-            <div class="widget uib_w_7 d-margins" data-uib="media/text" data-ver="0">
-                <div class="widget-container left-receptacle"></div>
-                <div class="widget-container right-receptacle"></div>
-                <div>
-                    <p id="swearTxt">Swear</p>
-                </div>
-            </div>
-            <button class="btn widget uib_w_8 d-margins btn-sm btn-default" data-uib="twitter%20bootstrap/button" data-ver="1" id="firstBtn">A</button>
-            <button class="btn widget uib_w_9 d-margins btn-sm btn-default" data-uib="twitter%20bootstrap/button" data-ver="1" id="secondBtn">B</button>
-            <button class="btn widget uib_w_10 d-margins btn-sm btn-default" data-uib="twitter%20bootstrap/button" data-ver="1" id="thirdBtn">C</button>
-            <button class="btn widget uib_w_11 d-margins btn-sm btn-default" data-uib="twitter%20bootstrap/button" data-ver="1" id="fourthBtn">D</button>
         </div>
     </body>
 
