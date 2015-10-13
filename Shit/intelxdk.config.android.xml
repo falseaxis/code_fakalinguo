@@ -9,6 +9,10 @@
 <author>Intel XDK</author>
 <content src="index.html"/>
 <access origin="*"/>
+<icon platform="android" src="res/mipmap-mdpi/ic_launcher.png" density="mdpi" width="48" height="48"/>
+<icon platform="android" src="res/mipmap-hdpi/ic_launcher.png" density="hdpi" width="72" height="72"/>
+<icon platform="android" src="res/mipmap-xhdpi/ic_launcher.png" density="xhdpi" width="96" height="96"/>
+<splash platform="android" src="assets/icerik.png" density="hdpi" width="480" height="640" orientation="portrait"/>
 <intelxdk:plugin intelxdk:name="StatusBar" intelxdk:value="cordova-plugin-statusbar" intelxdk:version="1.0.0" intelxdk:checksum="b4e7aac6"/>
 <intelxdk:plugin intelxdk:name="Device" intelxdk:value="cordova-plugin-device" intelxdk:version="1.0.1" intelxdk:checksum="adfc61ba"/>
 <intelxdk:plugin intelxdk:name="Splashscreen" intelxdk:value="cordova-plugin-splashscreen" intelxdk:version="2.1.0" intelxdk:checksum="170efb68"/>
@@ -19,6 +23,9 @@
 <preference name="android-minSdkVersion" value="14"/>
 <preference name="android-targetSdkVersion" value="19"/>
 <preference name="android-installLocation" value="auto"/>
+<preference name="Orientation" value="portrait"/>
+<preference name="android-signed" value="true"/>
+<preference name="splashscreen" value="splash"/>
 <!--creationInfo:{"src":"jsapp/template-blank-cordova-ad-project/sample.zip","projectTypeName":"com.intel.xdk.projecttype.jsapp"}-->
 <preference name="debuggable" value="false"/>
 <platform name="ios">

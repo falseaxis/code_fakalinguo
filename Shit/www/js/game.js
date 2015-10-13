@@ -1,8 +1,14 @@
+Array.prototype.remove = function (item) {
+    var index = this.indexOf(item);
+    if (index > -1) {
+        this.splice(index, 1);
+    }
+};
 var GameEngine = {};
 GameEngine.Streaks = [];
 GameEngine.Players = [];
 GameEngine.addStreakByID = function (playerID) {
-    var player =  GameEngine.Streaks[player.getID()];
+    var player = GameEngine.Streaks[player.getID()];
     GameEngine.addStreakByPlayer(player);
 };
 GameEngine.addStreakByPlayer = function (player) {
@@ -14,7 +20,7 @@ GameEngine.addStreakByPlayer = function (player) {
         });
 };
 GameEngine.clearStreakByID = function (playerID) {
-    var player =  GameEngine.Streaks[player.getID()];
+    var player = GameEngine.Streaks[player.getID()];
     GameEngine.clearStreakByPlayer(player);
 };
 GameEngine.clearStreakByPlayer = function (player) {
@@ -25,16 +31,16 @@ GameEngine.clearStreakByPlayer = function (player) {
             });
         });
 };
-GameEngine.createPlayer = function()
-{
-    
+GameEngine.createPlayer = function () {
+
     var newPlayer = new Player();
-    var ID =1;
+    var ID = 1;
     newPlayer.setID(ID);
     newPlayer.setName("Test User1");
     newPlayer.getPoint();
-    newPlayer.setTitle(function () {newPlayer.setMultipler();});
-    if(GameEngine.Players  && !GameEngine.Players[ID])
-       return( GameEngine.Players[ID] = newPlayer);
+    newPlayer.setTitle(function () {
+        newPlayer.setMultipler();
+    });
+    if (GameEngine.Players && !GameEngine.Players[ID])
+        return (GameEngine.Players[ID] = newPlayer);
 };
-

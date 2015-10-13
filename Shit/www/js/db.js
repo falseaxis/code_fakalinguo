@@ -1,4 +1,4 @@
-var DB = [
+var DB = JSON.stringify([
     
 {"ID":1,"Key": "Douchebag","tr-TR": "Aşağılık herif","en-En":"Douchebag","es-ES":"Gilipollas","ru-RU":"Pridurok","it-IT":"Coglione","pt-PT":"Babaca","de-DE":"Depp","sw-SW":"Douchebag","br-BR":"Sukkel","fr-FR":"Douchebag"},
     
@@ -43,4 +43,4 @@ var DB = [
 {"ID":21,"Key":"Loser","tr-TR": "Ezik","en-En":"Loser","es-ES":"Perdedor","ru-RU":"Neudachnik","it-IT":"Perdente","pt-PT":"Perdedor","de-DE":"Verlierer","sw-SW":"Förlorare","br-BR":"Verliezer","fr-FR":"Perdant"},
     
 {"ID":22,"Key":"Fucker","tr-TR": "Pezevenk","en-En":"Fucker","es-ES":"Cabron","ru-RU":"Podonok","it-IT":"Coglione","pt-PT":"Idiota","de-DE":"Ficker","sw-SW":"Fucker","br-BR":"Fucker","fr-FR":"Enfoiré"},
-];
+]);

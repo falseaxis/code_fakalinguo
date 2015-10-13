@@ -267,7 +267,7 @@ body:not(#afui) .upage-outer {
 }
 @media all and (min-width: 768px) {
   .row-height-2 > .col > .content-area {
-    min-height: 153.546875px;
+    min-height: 136.75px;
   }
 }
 .left-receptacle {
@@ -302,7 +302,6 @@ body:not(#afui) .upage-outer {
     margin-left: 10%;
   }
   .d-margins {
-    margin-top: 6%;
     margin-bottom: 2%;
   }
 }
@@ -1569,7 +1568,7 @@ body:not(#afui) .upage-outer {
 }
 @media all {
   .sa p {
-    font-size: 75%;
+    font-size: 18px;
   }
 }
 .zz {
@@ -1775,7 +1774,7 @@ label:empty {
 @media all {
   .BG {
     background-color: #000000;
-    background-image: url("../assets/içerik.png");
+    background-image: url("../assets/icerik.png");
     background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -1818,5 +1817,22 @@ label:empty {
   }
   .urow.cright > .col-1_12-12 {
     padding-left: 0px !important;
+  }
+}
+@media all {
+  .vertical-col > .btnrightalign,
+  .vertical-col > .afScrollPanel > .btnrightalign {
+    margin-right: 6px;
+  }
+  .vertical-col > .btnrightalign,
+  .vertical-col > .afScrollPanel > .btnrightalign {
+    margin-right: 6px;
+  }
+}
+@media all {
+  .headgrid {
+    padding-top: 15%;
+    padding-left: 10%;
+    padding-right: 10%;
   }
 }
