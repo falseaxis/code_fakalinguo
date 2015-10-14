@@ -3,22 +3,31 @@
     /*
       hook up event handlers 
     */
+    var question = 1;
+    //var selectedQuestions = [];
+    var usedlang = null;
+    var currentAnswer = null;
+    var player;
+    var intervals = [];
+    var time;
+
     function register_event_handlers() {
         $(document).ready(function () {
             initAd();
-            selectedQuestions = JSON.parse(DB);
-            usedlang=JSON.parse(Languages);
+            GameEngine.setQuestions(JSON.parse(DB));
+            usedlang = JSON.parse(Languages);
             player = GameEngine.createPlayer();
             setTimeout(function () {
+                window.plugins.AdMob.createInterstitialView();
+
                 setStartupVars();
-                showGecisModalDialog();
-                activate_page("#mainpage", function () {
-                    window.plugins.AdMob.createBannerView();
-                });
+                showAdModalDialog();
+                activate_page("#mainpage", function () {});
             }, 1000);
         });
         $(document).on("pagechange", function (evnt, pageID) {
-            if (pageID == "#mainpage") {          
+            if (pageID == "#mainpage") {
+
                 //setTimeout(function () {
                 //    gameStart();
                 //}, 5000);
@@ -35,21 +44,31 @@
         var gecispointTxt = document.getElementById("gecispointTxt");
         var gecisAnswerTxt = document.getElementById("gecisAnswerTxt");
 
+
         var a = document.getElementById("firstBtn");
         var b = document.getElementById("secondBtn");
         var c = document.getElementById("thirdBtn");
         var d = document.getElementById("fourthBtn");
-        var gecisModal = $('#gecisModal');
-        
-        var question = 1;
-        var selectedQuestions = null;
-        var usedlang = null;
-        var currentAnswer = null;
-        var player;
-        var intervals = [];
-        var time;
 
-        function showGecisModalDialog(answer) {
+        var gecisModal = $('#gecisModal');
+        var adPanel = $('#reklammodal');
+
+        function showAdModalDialog() {
+            adPanel.modal();
+        };
+
+        function hideAdModalDialog(time) {
+            if (!time)
+                setTimeout(function () {
+                    adPanel.modal('hide');
+                }, 200);
+            else
+                setTimeout(function () {
+                    adPanel.modal('hide');
+                }, time);
+        };
+
+        function showGecisModalDialog(answer, addedPoints) {
 
             if (answer === true)
                 gecisAnswerTxt.innerText = "Doğru :)";
@@ -61,7 +80,10 @@
                 gecisAnswerTxt.innerText = "";
 
             gecistitleTxt.innerText = "Sir " + player.getTitle();
-            gecispointTxt.innerText = "Point: " + player.getPoint();
+            if (!addedPoints || addedPoints <= 0)
+                gecispointTxt.innerText = "";
+            else
+                gecispointTxt.innerText = "You Get " + addedPoints + " Points";
             gecismultiplerTxt.innerText = "Multipler: X" + player.getMultipler();
             gecisModal.modal();
         };
@@ -77,17 +99,16 @@
                 }, time);
         };
 
-        function gameStart(selectedQuestions) {
-            swearTxt.innerText = question + ".) " + questionSelector(selectedQuestions) + "?";
+        function gameStart() {
+            swearTxt.innerText = question + ".) " + questionSelector() + "?";
             pointTxt.innerText = "Point: " + player.getPoint();
             answerMaker();
             time = 10;
-            for(var i =0; i < intervals.length; i++)
-            {
+            for (var i = 0; i < intervals.length; i++) {
                 clearInterval(intervals[i]);
             }
             intervals = [];
-             var myVar = setInterval(function () {
+            var myVar = setInterval(function () {
                 if (time == 0) {
                     clearInterval(myVar);
                     intervals.pop(myVar);
@@ -136,24 +157,24 @@
             }
 
         }
-        
-        function questionSelector(selectedQuestions) {
-            
-            usedlang=JSON.parse(Languages);
-            var qNumber = Math.floor((Math.random() * selectedQuestions.length) + 1);
-            var langNumber = Math.floor((Math.random() * (Object.keys(selectedQuestions[qNumber]).length-2)) + 1);
+
+        function questionSelector() {
+
+            usedlang = JSON.parse(Languages);
+            var qNumber = Math.floor((Math.random() * GameEngine.getQuestions().length) + 1);
+            var langNumber = Math.floor((Math.random() * (Object.keys(GameEngine.getQuestions()[qNumber]).length - 2)) + 1);
             //if (selectedQuestions[qNumber]) {
             //    if (selectedQuestions[qNumber][abrSwitcher(langNumber)])
             //        questionSelector();
             //} else {
-                //if (!selectedQuestions[qNumber])
-                //    selectedQuestions[qNumber] = {};
-                question++;
-                //return (selectedQuestions[qNumber][abrSwitcher(langNumber)] = DB[qNumber][abrSwitcher(langNumber)]);
-                var selected = selectedQuestions[qNumber][abrSwitcher(langNumber)];
-                usedlang.remove(currentAnswer);
-                delete selectedQuestions[qNumber][abrSwitcher(langNumber)];
-                return selected;
+            //if (!selectedQuestions[qNumber])
+            //    selectedQuestions[qNumber] = {};
+            question++;
+            //return (selectedQuestions[qNumber][abrSwitcher(langNumber)] = DB[qNumber][abrSwitcher(langNumber)]);
+            var selected = GameEngine.getQuestions()[qNumber][abrSwitcher(langNumber)];
+            usedlang.remove(currentAnswer);
+            delete GameEngine.getQuestions()[qNumber][abrSwitcher(langNumber)];
+            return selected;
             //}
         };
 
@@ -212,8 +233,8 @@
 
             }
         };
-        
-        
+
+
 
         function langSwitcher(answer) { //kullanılmış mı kontrolü yap
             //usedlang=JSON.parse(Languages);
@@ -262,7 +283,7 @@
             //    {
             //        return usedlang["Fransızca"] ? langSwitcher(answer) : answer == "Fransızca" ? langSwitcher(answer) : (usedlang["Fransızca"] = "Fransızca");
             //    }
-//
+            //
             //}
         };
 
@@ -277,11 +298,10 @@
             b.innerText = "";
             c.innerText = "";
             d.innerText = "";
-            selectedQuestions = {};
+            //selectedQuestions = {};
             currentAnswer = null;
-            usedlang=null;
-            for(var i =0; i < intervals.length; i++)
-            {
+            usedlang = null;
+            for (var i = 0; i < intervals.length; i++) {
                 clearInterval(intervals[i]);
             }
             intervals = [];
@@ -294,9 +314,9 @@
             if (a.innerText == currentAnswer) //buton renkleri değişecek
             {
                 player.addStreak(function () {
-                    player.addPoint(time);
+                    var added = player.addPoint(time);
                     setStartupVars();
-                    showGecisModalDialog(true);
+                    showGecisModalDialog(true, added);
                 });
 
             } else {
@@ -313,9 +333,9 @@
             /* your code goes here */
             if (b.innerText == currentAnswer) {
                 player.addStreak(function () {
-                    player.addPoint(time);
+                    var added = player.addPoint(time);
                     setStartupVars();
-                    showGecisModalDialog(true);
+                    showGecisModalDialog(true, added);
                 });
 
             } else {
@@ -331,9 +351,9 @@
             /* your code goes here */
             if (c.innerText == currentAnswer) {
                 player.addStreak(function () {
-                    player.addPoint(time);
+                    var added = player.addPoint(time);
                     setStartupVars();
-                    showGecisModalDialog(true);
+                    showGecisModalDialog(true, added);
                 });
 
             } else {
@@ -349,9 +369,9 @@
             /* your code goes here */
             if (d.innerText == currentAnswer) {
                 player.addStreak(function () {
-                    player.addPoint(time);
+                    var added = player.addPoint(time);
                     setStartupVars();
-                    showGecisModalDialog(true);
+                    showGecisModalDialog(true, added);
                 });
 
             } else {
@@ -361,14 +381,14 @@
                 });
             }
         });
-        $(document).on("click", "#btnGecisCloase", function (evt) {
-            $('#btnGecisCloase').prop('disabled', true);
+        $(document).on("click", "#btnGecisClose", function (evt) {
+            $('#btnGecisClose').prop('disabled', true);
             setTimeout(function () {
                 window.plugins.AdMob.createBannerView();
-                selectedQuestions = JSON.parse(DB);
-                gameStart(selectedQuestions);
-                hideGecisModalDialog();
-                $('#btnGecisCloase').prop('disabled', false);
+                //selectedQuestions = JSON.parse(DB);
+                gameStart();
+                hideGecisModalDialog();hideAdModalDialog();
+                $('#btnGecisClose').prop('disabled', false);
             }, 500);
         });
 
@@ -426,7 +446,13 @@
         document.addEventListener('onPresentAd', function () {});
         document.addEventListener('onDismissAd', function () {});
         document.addEventListener('onLeaveToAd', function () {});
-        document.addEventListener('onReceiveInterstitialAd', function () {});
+        document.addEventListener('onReceiveInterstitialAd', function () {
+
+            document.getElementById("adContent").innerHTML = this;
+            hideAdModalDialog();
+
+
+        });
         document.addEventListener('onPresentInterstitialAd', function () {});
         document.addEventListener('onDismissInterstitialAd', function () {});
     }

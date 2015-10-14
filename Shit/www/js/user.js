@@ -25,9 +25,11 @@ function Player() {
             return playerID;
     };
     this.addPoint = function (time,callback) {
-        playerPoint += time*132*playerMultipler;
+        var added = time*132*playerMultipler;
+        playerPoint += added;
         if (callback && typeof callback == 'function')
-            callback();
+            callback(added);
+        return added;
         //Player.setTitle();
         //Player.setMultipler();
     };

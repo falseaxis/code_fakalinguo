@@ -7,6 +7,19 @@ Array.prototype.remove = function (item) {
 var GameEngine = {};
 GameEngine.Streaks = [];
 GameEngine.Players = [];
+GameEngine.Questions = [];
+
+
+GameEngine.getQuestions = function()
+{
+    return GameEngine.Questions;
+};
+GameEngine.setQuestions = function (questions)
+{
+    GameEngine.Questions = [];
+    GameEngine.Questions = GameEngine.Questions.concat(questions);
+};
+
 GameEngine.addStreakByID = function (playerID) {
     var player = GameEngine.Streaks[player.getID()];
     GameEngine.addStreakByPlayer(player);
