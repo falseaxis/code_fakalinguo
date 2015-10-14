@@ -258,6 +258,8 @@ body:not(#afui) .upage-outer {
 }
 @media all {
   .grid-pad {
+    padding-top: 5%;
+    padding-bottom: 5%;
     padding-left: 10%;
     padding-right: 10%;
   }
@@ -267,7 +269,9 @@ body:not(#afui) .upage-outer {
 }
 @media all and (min-width: 768px) {
   .row-height-2 > .col > .content-area {
-    min-height: 136.75px;
+    min-height: 10%;
+    height: 10%;
+    max-height: 10%;
   }
 }
 .left-receptacle {
@@ -1778,7 +1782,7 @@ label:empty {
     background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-size: 100% auto;
+    background-size: 100% 100%;
   }
 }
 .ffa {
@@ -1832,7 +1836,8 @@ label:empty {
 }
 @media all {
   .headgrid {
-    padding-top: 15%;
+    padding-top: 10%;
+    padding-bottom: 2%;
     padding-left: 10%;
     padding-right: 10%;
   }

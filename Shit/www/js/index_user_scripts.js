@@ -18,8 +18,6 @@
             usedlang = JSON.parse(Languages);
             player = GameEngine.createPlayer();
             setTimeout(function () {
-                window.plugins.AdMob.createInterstitialView();
-
                 setStartupVars();
                 showAdModalDialog();
                 activate_page("#mainpage", function () {});
@@ -55,7 +53,7 @@
 
         function showAdModalDialog() {
             adPanel.modal();
-        };
+        }
 
         function hideAdModalDialog(time) {
             if (!time)
@@ -66,7 +64,7 @@
                 setTimeout(function () {
                     adPanel.modal('hide');
                 }, time);
-        };
+        }
 
         function showGecisModalDialog(answer, addedPoints) {
 
@@ -86,7 +84,7 @@
                 gecispointTxt.innerText = "You Get " + addedPoints + " Points";
             gecismultiplerTxt.innerText = "Multipler: X" + player.getMultipler();
             gecisModal.modal();
-        };
+        }
 
         function hideGecisModalDialog(time) {
             if (!time)
@@ -97,7 +95,7 @@
                 setTimeout(function () {
                     gecisModal.modal('hide');
                 }, time);
-        };
+        }
 
         function gameStart() {
             swearTxt.innerText = question + ".) " + questionSelector() + "?";
@@ -109,7 +107,7 @@
             }
             intervals = [];
             var myVar = setInterval(function () {
-                if (time == 0) {
+                if (time === 0) {
                     clearInterval(myVar);
                     intervals.pop(myVar);
                     player.clearStreak(function () {
@@ -127,7 +125,7 @@
                 timerProgress.width(a + '%');
             }, 1000);
             intervals.push(myVar);
-        };
+        }
 
         function answerMaker() {
             var _1 = langSwitcher(currentAnswer);
@@ -163,20 +161,12 @@
             usedlang = JSON.parse(Languages);
             var qNumber = Math.floor((Math.random() * GameEngine.getQuestions().length) + 1);
             var langNumber = Math.floor((Math.random() * (Object.keys(GameEngine.getQuestions()[qNumber]).length - 2)) + 1);
-            //if (selectedQuestions[qNumber]) {
-            //    if (selectedQuestions[qNumber][abrSwitcher(langNumber)])
-            //        questionSelector();
-            //} else {
-            //if (!selectedQuestions[qNumber])
-            //    selectedQuestions[qNumber] = {};
             question++;
-            //return (selectedQuestions[qNumber][abrSwitcher(langNumber)] = DB[qNumber][abrSwitcher(langNumber)]);
             var selected = GameEngine.getQuestions()[qNumber][abrSwitcher(langNumber)];
             usedlang.remove(currentAnswer);
             delete GameEngine.getQuestions()[qNumber][abrSwitcher(langNumber)];
             return selected;
-            //}
-        };
+        }
 
         function abrSwitcher(langNumber) {
             switch (langNumber) {
@@ -232,7 +222,7 @@
                 }
 
             }
-        };
+        }
 
 
 
@@ -241,51 +231,8 @@
             var langNumber = Math.floor((Math.random() * usedlang.length) + 1);
             var itm = usedlang[langNumber];
             usedlang.remove(itm);
-            return itm;
-            //switch (langNumber) {
-            //case 1:
-            //    {
-            //        return usedlang["Türkçe"] ? langSwitcher(answer) : answer == "Türkçe" ? langSwitcher(answer) : (usedlang["Türkçe"] = "Türkçe");
-            //    }
-            //case 2:
-            //    {
-            //        return usedlang["İngilizce"] ? langSwitcher(answer) : answer == "İngilizce" ? langSwitcher(answer) : (usedlang["İngilizce"] = "İngilizce");
-            //    }
-            //case 3:
-            //    {
-            //        return usedlang["İspanyolca"] ? langSwitcher(answer) : answer == "İspanyolca" ? langSwitcher(answer) : (usedlang["İspanyolca"] = "İspanyolca");
-            //    }
-            //case 4:
-            //    {
-            //        return usedlang["Rusça"] ? langSwitcher(answer) : answer == "Rusça" ? langSwitcher(answer) : (usedlang["Rusça"] = "Rusça");
-            //    }
-            //case 5:
-            //    {
-            //        return usedlang["İtalyanca"] ? langSwitcher(answer) : answer == "İtalyanca" ? langSwitcher(answer) : (usedlang["İtalyanca"] = "İtalyanca");
-            //    }
-            //case 6:
-            //    {
-            //        return usedlang["Portekizce"] ? langSwitcher(answer) : answer == "Portekizce" ? langSwitcher(answer) : (usedlang["Portekizce"] = "Portekizce");
-            //    }
-            //case 7:
-            //    {
-            //        return usedlang["Almanca"] ? langSwitcher(answer) : answer == "Almanca" ? langSwitcher(answer) : (usedlang["Almanca"] = "Almanca");
-            //    }
-            //case 8:
-            //    {
-            //        return usedlang["İsveççe"] ? langSwitcher(answer) : answer == "İsveççe" ? langSwitcher(answer) : (usedlang["İsveççe"] = "İsveççe");
-            //    }
-            //case 9:
-            //    {
-            //        return usedlang["BR"] ? langSwitcher(answer) : answer == "BR" ? langSwitcher(answer) : (usedlang["BR"] = "BR");
-            //    }
-            //case 10:
-            //    {
-            //        return usedlang["Fransızca"] ? langSwitcher(answer) : answer == "Fransızca" ? langSwitcher(answer) : (usedlang["Fransızca"] = "Fransızca");
-            //    }
-            //
-            //}
-        };
+            return itm;            
+        }
 
         function setStartupVars() {
 
@@ -307,7 +254,7 @@
             intervals = [];
             //clearInterval(myVar);
 
-        };
+        }
         /* button  #firstBtn */
         $(document).on("click", "#firstBtn", function (evt) {
             /* your code goes here */
@@ -397,7 +344,7 @@
     function initApp() {
         initAd();
         // display the banner at startup
-        //window.plugins.AdMob.createBannerView();
+        window.plugins.AdMob.createInterstitialView();
     }
 
     function initAd() {
@@ -471,8 +418,8 @@
         document.addEventListener("backbutton", function (e) {
             e.preventDefault();
             if (exitApp) {
-                clearInterval(intval)
-                    (navigator.app && navigator.app.exitApp()) || (device && device.exitApp())
+                    if((navigator.app && navigator.app.exitApp()) || (device && device.exitApp()))
+                clearInterval(intval);
             } else {
                 exitApp = true;
                 window.plugins.toast.show('Çıkmak için bir kere daha geri tuşuna basın!', 'short', 'bottom');
