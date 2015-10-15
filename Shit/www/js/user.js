@@ -5,7 +5,19 @@ function Player() {
     var playerStreak = 0;
     var playerMultipler = 1;
     var playerPoint = 0;
+    var playerHighScore = 0;
 
+    this.setHighScore = function (score) {
+        if (score) {
+            playerHighScore = score;
+            Model.init();
+            Model.webdb.updateUser(playerID, playerName, playerHighScore);
+        }
+    };
+
+    this.getHighScore = function () {
+        return playerHighScore;
+    };
 
     this.setName = function (name) {
         if (name) //js olup olmadığını kontrol et
@@ -24,18 +36,22 @@ function Player() {
         if (playerID)
             return playerID;
     };
-    this.addPoint = function (time,callback) {
-        var added = time*132*playerMultipler;
+    this.addPoint = function (time, callback) {
+        var added = time * 132 * playerMultipler;
         playerPoint += added;
+        if (playerPoint > playerHighScore)
+            this.setHighScore(playerPoint);
         if (callback && typeof callback == 'function')
             callback(added);
         return added;
         //Player.setTitle();
         //Player.setMultipler();
     };
-    this.getPoint = function()
-    {
+    this.getPoint = function () {
         return playerPoint;
+    };
+    this.clearPoint = function () {
+        playerPoint = 0;
     };
     this.addStreak = function (callback) {
         playerStreak++;
@@ -66,7 +82,7 @@ function Player() {
             callback();
     };
     this.getTitle = function (callback) {
-            this.setTitle();
+        this.setTitle();
         if (callback && typeof callback == 'function')
             return callback(playerTitle);
         return playerTitle;

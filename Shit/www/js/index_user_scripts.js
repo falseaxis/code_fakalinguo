@@ -17,18 +17,18 @@
             GameEngine.setQuestions(JSON.parse(DB));
             usedlang = JSON.parse(Languages);
             player = GameEngine.createPlayer();
-            setTimeout(function () {
-                setStartupVars();
-                showAdModalDialog();
-                activate_page("#mainpage", function () {});
-            }, 1000);
+            window.plugins.AdMob.createInterstitialView();
+            //setStartupVars();
+            //setTimeout(function () {
+            //    setStartupVars();
+            //    //showAdModalDialog();
+            //    activate_page("#mainpage", function () {});
+            //}, 1000);
         });
         $(document).on("pagechange", function (evnt, pageID) {
             if (pageID == "#mainpage") {
-
-                //setTimeout(function () {
-                //    gameStart();
-                //}, 5000);
+                //showAdModalDialog();
+                //window.plugins.AdMob.createInterstitialView();
             }
         });
         var titleTxt = document.getElementById("titleTxt");
@@ -49,20 +49,20 @@
         var d = document.getElementById("fourthBtn");
 
         var gecisModal = $('#gecisModal');
-        var adPanel = $('#reklammodal');
+        var endGameModal = $('#endGameModal');
 
-        function showAdModalDialog() {
-            adPanel.modal();
+        function showEndGameModal() {
+            endGameModal.modal();
         }
 
-        function hideAdModalDialog(time) {
+        function hideEndGameModal(time) {
             if (!time)
                 setTimeout(function () {
-                    adPanel.modal('hide');
+                    endGameModal.modal('hide');
                 }, 200);
             else
                 setTimeout(function () {
-                    adPanel.modal('hide');
+                    endGameModal.modal('hide');
                 }, time);
         }
 
@@ -157,65 +157,68 @@
         }
 
         function questionSelector() {
-
-            usedlang = JSON.parse(Languages);
-            var qNumber = Math.floor((Math.random() * GameEngine.getQuestions().length) + 1);
-            var langNumber = Math.floor((Math.random() * (Object.keys(GameEngine.getQuestions()[qNumber]).length - 2)) + 1);
+            usedlang = [];
+            usedlang = JSON.parse(Languages).slice(0);
+            var questions = GameEngine.getQuestions();
+            var selectNumber = Math.floor((Math.random() * questions.length));
+            var langNumber = Math.floor((Math.random() * (Object.keys(questions[selectNumber]).length - 2)));
+            
             question++;
-            var selected = GameEngine.getQuestions()[qNumber][abrSwitcher(langNumber)];
+            var selected = questions[selectNumber][abrSwitcher(langNumber)];
             usedlang.remove(currentAnswer);
-            delete GameEngine.getQuestions()[qNumber][abrSwitcher(langNumber)];
+            delete GameEngine.getQuestions()[selectNumber][abrSwitcher(langNumber)];
+
             return selected;
         }
 
         function abrSwitcher(langNumber) {
             switch (langNumber) {
-            case 1:
+            case 0:
                 {
                     currentAnswer = "Türkçe";
                     return "tr-TR";
                 }
-            case 2:
+            case 1:
                 {
                     currentAnswer = "İngilizce";
                     return "en-En";
                 }
-            case 3:
+            case 2:
                 {
                     currentAnswer = "İspanyolca";
                     return "es-ES";
                 }
-            case 4:
+            case 3:
                 {
                     currentAnswer = "Rusça";
                     return "ru-RU";
                 }
-            case 5:
+            case 4:
                 {
                     currentAnswer = "İtalyanca";
                     return "it-IT";
                 }
-            case 6:
+            case 5:
                 {
                     currentAnswer = "Portekizce";
                     return "pt-PT";
                 }
-            case 7:
+            case 6:
                 {
                     currentAnswer = "Almanca";
                     return "de-DE";
                 }
-            case 8:
+            case 7:
                 {
                     currentAnswer = "İsveççe";
                     return "sw-SW";
                 }
-            case 9:
+            case 8:
                 {
                     currentAnswer = "BR";
                     return "br-BR";
                 }
-            case 10:
+            case 9:
                 {
                     currentAnswer = "Fransızca";
                     return "fr-FR";
@@ -228,10 +231,43 @@
 
         function langSwitcher(answer) { //kullanılmış mı kontrolü yap
             //usedlang=JSON.parse(Languages);
-            var langNumber = Math.floor((Math.random() * usedlang.length) + 1);
+            //usedlang = JSON.parse(Languages).slice(0);
+            var langNumber = Math.floor((Math.random() * usedlang.length));
             var itm = usedlang[langNumber];
+            if (!itm)
+                imt = langSwitcher(answer);
             usedlang.remove(itm);
-            return itm;            
+            return itm;
+        }
+
+        function reStart() {
+
+            player.clearPoint();
+            player.clearStreak();
+            titleTxt.innerText = "Sir " + player.getTitle();
+            pointTxt.innerText = "Point: " + player.getPoint();
+            timerProgress.innerText = " ";
+            swearTxt.innerText = " ";
+            multiplerTxt.innerText = "X" + player.getMultipler();
+            a.innerText = "";
+            b.innerText = "";
+            c.innerText = "";
+            d.innerText = "";
+            //selectedQuestions = {};
+            currentAnswer = null;
+            usedlang = null;
+            question = 1;
+            for (var i = 0; i < intervals.length; i++) {
+                clearInterval(intervals[i]);
+            }
+            intervals = [];
+            GameEngine.setQuestions(JSON.parse(DB));
+            usedlang = JSON.parse(Languages);
+            window.plugins.AdMob.createInterstitialView();
+            
+            //gameStart();
+            $('#endGameModalRestart').prop('disabled', false);
+            hideEndGameModal();
         }
 
         function setStartupVars() {
@@ -328,15 +364,56 @@
                 });
             }
         });
+
+        $(document).on("click", "#endGameModalRestart", function (evt) {
+            $('#endGameModalRestart').prop('disabled', true);
+            setTimeout(function () {
+                reStart();
+            }, 1000);
+        });
+
+        $(document).on("click", "#endGameModalClose", function (evt) {
+            ((navigator.app && navigator.app.exitApp()) || (device && device.exitApp()))
+        });
+
         $(document).on("click", "#btnGecisClose", function (evt) {
             $('#btnGecisClose').prop('disabled', true);
+            if (question <= 25)
+                setTimeout(function () {
+                    //window.plugins.AdMob.createBannerView();
+                    //selectedQuestions = JSON.parse(DB);
+                    gameStart();
+                    hideGecisModalDialog();
+                    //hideAdModalDialog();
+                    $('#btnGecisClose').prop('disabled', false);
+                }, 500);
+            else {
+                document.getElementById("txtScore").innerText = "Score: " + player.getPoint();
+                document.getElementById("txtHighScore").innerText = "HighScore: " + player.getHighScore();
+                hideGecisModalDialog();
+                showEndGameModal();
+            }
+        });
+
+        $(document).on("onDismissInterstitialAd", function (evt) {
             setTimeout(function () {
-                window.plugins.AdMob.createBannerView();
-                //selectedQuestions = JSON.parse(DB);
                 gameStart();
-                hideGecisModalDialog();hideAdModalDialog();
-                $('#btnGecisClose').prop('disabled', false);
-            }, 500);
+                activate_page("#mainpage", function () {
+                    window.plugins.AdMob.createBannerView();
+                    hideEndGameModal();
+                });
+            }, 1000);
+        });
+
+        $(document).on("onReceiveInterstitialAd", function (evt) {});
+        $(document).on("onPresentInterstitialAd", function (evt) {});
+        $(document).on("onFailedToReceiveAd", function (data) {
+            if (data.adType == "interstitial") setTimeout(function () {
+                gameStart();
+                activate_page("#mainpage", function () {
+                    window.plugins.AdMob.createBannerView();
+                });
+            }, 1000);
         });
 
     }
@@ -344,7 +421,7 @@
     function initApp() {
         initAd();
         // display the banner at startup
-        window.plugins.AdMob.createInterstitialView();
+        //window.plugins.AdMob.createInterstitialView();
     }
 
     function initAd() {
@@ -393,13 +470,7 @@
         document.addEventListener('onPresentAd', function () {});
         document.addEventListener('onDismissAd', function () {});
         document.addEventListener('onLeaveToAd', function () {});
-        document.addEventListener('onReceiveInterstitialAd', function () {
-
-            document.getElementById("adContent").innerHTML = this;
-            hideAdModalDialog();
-
-
-        });
+        document.addEventListener('onReceiveInterstitialAd', function () {});
         document.addEventListener('onPresentInterstitialAd', function () {});
         document.addEventListener('onDismissInterstitialAd', function () {});
     }
@@ -418,11 +489,11 @@
         document.addEventListener("backbutton", function (e) {
             e.preventDefault();
             if (exitApp) {
-                    if((navigator.app && navigator.app.exitApp()) || (device && device.exitApp()))
                 clearInterval(intval);
+                ((navigator.app && navigator.app.exitApp()) || (device && device.exitApp()))
             } else {
                 exitApp = true;
-                window.plugins.toast.show('Çıkmak için bir kere daha geri tuşuna basın!', 'short', 'bottom');
+                //window.plugins.toast.show('Çıkmak için bir kere daha geri tuşuna basın!', 'short', 'bottom');
             }
         }, false);
     }, false);

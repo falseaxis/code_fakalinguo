@@ -108,6 +108,7 @@
         <script type="text/javascript" src="js/user.js"></script>
         <script type="text/javascript" src="js/game.js"></script>
         <script type="text/javascript" src="js/languages.js"></script>
+        <script type="text/javascript" src="js/model.js"></script>
 
     </head>
 
@@ -115,28 +116,39 @@
         <!-- IMPORTANT: Do not include a weinre script tag as part of your release builds! -->
         <!-- Place your remote debugging (weinre) script URL from the Test tab here, if it does not work above -->
         <!-- <script src="http://debug-software.intel.com/target/target-script-min.js#insertabiglongfunkynumberfromthexdkstesttab"></script> modal fade-->
-        <div class="modal fade" id="reklammodal" role="dialog" data-backdrop="static">
+        <div class="modal fade" id="endGameModal" role="dialog" data-backdrop="static">
             <div class="modal-dialog">
 
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
-                        <div class="panel widget uib_w_26 panel-default" data-uib="twitter%20bootstrap/panel" data-ver="1" id="adContent">
-                            <div class="panel-heading">
-                                <div class="widget-container"></div>
-                            </div>
-                            <div class="col uib_col_10 single-col" data-uib="layout/col" data-ver="0">
-                                <div class="widget-container content-area vertical-col">
-                                    <span class="uib_shim"></span>
+                        <div class="sbs-container widget uib_w_27 d-margins" data-uib="layout/side_by_side" data-ver="0">
+                            <div class="leftContent widget-container">
+                                <div class="widget uib_w_28 d-margins" data-uib="media/text" data-ver="0" >
+                                    <div class="widget-container left-receptacle"></div>
+                                    <div class="widget-container right-receptacle"></div>
+                                    <div>
+                                        <p id="txtScore">Score:</p>
+                                    </div>
                                 </div>
                             </div>
-
+                            <div class="rightContent widget-container">
+                                <div class="widget uib_w_29 d-margins" data-uib="media/text" data-ver="0" >
+                                    <div class="widget-container left-receptacle"></div>
+                                    <div class="widget-container right-receptacle"></div>
+                                    <div>
+                                        <p id="txtHighScore">HighScore:</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer ">
                         <div class="btn-group uib-bs-flex widget uib_w_21 d-margins" data-uib="twitter%20bootstrap/button_group" data-ver="1">
 
-                            <button class="btn widget uib_w_24 btn-default" data-uib="twitter%20bootstrap/button" data-ver="1" id="btnAdGecisClose"><i class="glyphicon glyphicon-remove-circle" data-position="icon only"></i>
+                            <button class="btn widget uib_w_26 d-margins btn-default" data-uib="twitter%20bootstrap/button" data-ver="1" id="endGameModalRestart">Tekrar<i class="glyphicon glyphicon-repeat button-icon-bottom" data-position="bottom"></i>
+                            </button>
+                            <button class="btn widget uib_w_24 btn-default" data-uib="twitter%20bootstrap/button" data-ver="1" id="endGameModalClose">Çıkış<i class="glyphicon glyphicon-remove-circle button-icon-bottom" data-position="bottom"></i>
                             </button>
                         </div>
                     </div>
@@ -202,7 +214,7 @@
                     <div class="modal-footer ">
                         <div class="btn-group uib-bs-flex widget uib_w_21 d-margins" data-uib="twitter%20bootstrap/button_group" data-ver="1">
 
-                            <button class="btn widget uib_w_24 btn-default" data-uib="twitter%20bootstrap/button" data-ver="1" id="btnGecisCloase"><i class="glyphicon glyphicon-remove-circle" data-position="icon only"></i>
+                            <button class="btn widget uib_w_24 btn-default" data-uib="twitter%20bootstrap/button" data-ver="1" id="btnGecisClose"><i class="glyphicon glyphicon-remove-circle" data-position="icon only"></i>
                             </button>
                         </div>
                     </div>
@@ -211,7 +223,6 @@
 
         </div>
         <div class="upage vertical-col left splash_bg BG" id="splashpage">
-
             <div class="widget uib_w_16 d-margins" data-uib="media/text" data-ver="0" id="multiplerTxt">
                 <div class="widget-container left-receptacle"></div>
                 <div class="widget-container right-receptacle"></div>
@@ -280,7 +291,7 @@
                                         <div class="widget-container left-receptacle"></div>
                                         <div class="widget-container right-receptacle"></div>
                                         <div>
-                                            <p>Buraya Otomatik Küfür gelecek</p>
+                                            <p id="swearTxt">Buraya Otomatik Küfür gelecek</p>
                                         </div>
                                     </div>
                                 </div>

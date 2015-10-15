@@ -10,12 +10,10 @@ GameEngine.Players = [];
 GameEngine.Questions = [];
 
 
-GameEngine.getQuestions = function()
-{
+GameEngine.getQuestions = function () {
     return GameEngine.Questions;
 };
-GameEngine.setQuestions = function (questions)
-{
+GameEngine.setQuestions = function (questions) {
     GameEngine.Questions = [];
     GameEngine.Questions = GameEngine.Questions.concat(questions);
 };
@@ -45,7 +43,7 @@ GameEngine.clearStreakByPlayer = function (player) {
         });
 };
 GameEngine.createPlayer = function () {
-
+    Model.init();
     var newPlayer = new Player();
     var ID = 1;
     newPlayer.setID(ID);
@@ -54,6 +52,15 @@ GameEngine.createPlayer = function () {
     newPlayer.setTitle(function () {
         newPlayer.setMultipler();
     });
-    if (GameEngine.Players && !GameEngine.Players[ID])
+    var user = Model.webdb.getUser(ID,
+    function (user) {
+        if (!user)
+            Model.webdb.addUser(ID, newPlayer.getName(), 0);
+        else
+            newPlayer.setHighScore(user.HighScore);
+    });
+
+    if (GameEngine.Players && !GameEngine.Players[ID]) {
         return (GameEngine.Players[ID] = newPlayer);
+    }
 };
